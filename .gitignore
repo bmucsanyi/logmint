@@ -1,0 +1,10 @@
+build/
+.DS_Store
+.coverage
+_minted*/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+sandbox
