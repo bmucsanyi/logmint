@@ -13,6 +13,8 @@ Read:
     table = logmint.aggregate(frame, over="seed", x="step", by=["method"])
 """
 
+from logmint import arrow_store as arrow_store
+from logmint import storage as storage
 from logmint._blobs import collect as gc
 from logmint._blobs import get, get_path, put, reachable
 from logmint._errors import (
@@ -53,6 +55,7 @@ __all__ = [
     "RecordError",
     "Run",
     "aggregate",
+    "arrow_store",
     "canonical",
     "census",
     "coords_of",
@@ -71,6 +74,7 @@ __all__ = [
     "run_id",
     "scan",
     "status_of",
+    "storage",
     "verify",
     "write_schema",
 ]

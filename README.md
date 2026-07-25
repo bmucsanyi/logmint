@@ -93,3 +93,40 @@ pytest && ruff check . && ruff format --check .
 ```
 
 `ruff` runs with `select = ["ALL"]`. Tests cover 100% of the package.
+
+## Authenticated publications
+
+`logmint.storage` publishes canonical JSON, numeric array bundles, and directory
+trees with byte counts and BLAKE3 digests. A publication is built beside its final
+path, synchronized, and promoted by one rename. Reopening it authenticates the
+identity and complete file inventory before returning data. Two-slot journals
+provide generation-checked mutable progress for restartable writers.
+
+`logmint.arrow_store.ArrowStream` adds restartable Arrow IPC streams. Each
+checkpoint retains one rollback prefix, restart removes uncommitted files, and
+finalization compacts records into deterministic 65,536-row shards before sealing
+the directory publication.
+
+```python
+from logmint import arrow_store, storage
+
+manifest = storage.publish_arrays(
+    output.resolve(),
+    "experiment-results-v1",
+    {"run": run_id},
+    {"scores": scores},
+)
+
+stream = arrow_store.ArrowStream(
+    records.resolve(),
+    "experiment-records-v1",
+    {"run": run_id},
+    schema,
+    expected_rows,
+)
+writer = stream.open(initial_checkpoint)
+writer.append(record_batches)
+writer.checkpoint(final_checkpoint)
+writer.retain(final_checkpoint)
+writer.finalize(final_checkpoint)
+```

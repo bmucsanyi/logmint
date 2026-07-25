@@ -21,7 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Operating System :: OS Independent",
 ]
-dependencies = ["duckdb", "numpy", "polars", "pyarrow"]
+dependencies = ["blake3>=1.0.8", "duckdb", "numpy", "polars", "pyarrow"]
 version = "0.1.0"
 readme = "README.md"
 license = { file = "LICENSE" }
